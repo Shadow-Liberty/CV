@@ -1,0 +1,795 @@
+/*COMMENTAIRES :
+- La méthode de Masonry Grid est mauvaise et temporaire, je compte utiliser la méthode jQuery plutôt que la méthode CSS pure.
+- Je ne sais pas comment afficher un style au lien actif, la pseudo-class :active ne permettant que d'afficher un style au moment du clic. Là aussi les solutions que je trouve son effectuées en jQuery, je m'y attelerai plus tard.
+- Dans son ensemble le site n'a rien de responsive, je devrai repasser les valeurs au fur et à mesure afin d'utiliser plus de pourcentages.
+- L'implémentation de nombreux -moz et -o n'est pas encore finalisée.
+- Quand je verrai plus clair j'essayerai notamment de venir à bout de cette divite symptomatique de la reconstitution d'un site Google. Même moi mon code me fait peur, c'est dire.*/
+
+/*RESET DE MEYER*/
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+body {
+	line-height: 1;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+
+/*Mon CSS-----------------------------------------------*/
+
+
+body{
+	width: 100%;
+	background-color: #FFF;
+	font: normal 13px Roboto,arial,sans-serif;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	background-color: #e5e5e5;
+}
+
+header{
+	position: absolute;
+	top: 0;
+	left: 0;
+	height: 498px;
+	width: 100%;
+}
+
+#topBar{
+	height: 60px;
+	background-color: white;
+	position: relative;
+	z-index: 10;
+}
+
+#pp{
+	width: 100%;
+	max-width: 120px;
+	min-width: 70px;
+	border-radius: 50%;
+}
+
+#Google{
+	padding: 0 30px;
+	height: 60px;
+}
+
+#googleIcon{
+	display: inline-block;
+    outline: none;
+}
+
+#topBar div img{
+	display: block;
+	height: 30px;
+	width: 108px;
+	padding-top: 15px;
+}
+
+#content{
+	position: absolute;
+	top: 497px;
+}
+
+#searchbar{
+	width: 650px;
+	height: 28px;
+	position: absolute;
+	top: 15px;
+	left: 200px;
+}
+
+#searchbar input{
+	position: absolute;
+	/*top: 15px;*/
+	width: 573px;
+	height: 26px;
+	padding: 0;
+	border: none;
+	outline: 0;
+}
+
+#searchInput{
+	position: absolute;
+	border: 1px solid #cdcdcd;
+	border-color: rgba(0,0,0,.15);
+	height: 28px;
+	width: 573px;
+	outline: 1;
+}
+
+#searchInput:active{
+	border-color: #4285f4;
+	/*-webkit-box-shadow: inset 0px 1px 2px rgba(0,0,0,0.3);
+	box-shadow: inset 0px 1px 2px rgba(0,0,0,0.3);*/
+}
+
+#search{
+	position: absolute;
+	left: 574px;
+	height: 30px;
+	width: 58px;
+	border: 1px solid transparent;
+	background: -webkit-linear-gradient(top,#4387fd,#4683ea);
+	background: #4285f4;
+	border-top-right-radius: 2px;
+	border-bottom-right-radius: 2px;
+	outline: 0;
+}
+
+#search{
+	background-image: url(../img/spriteicons.png);
+	background-position: 13px -1943px;
+	background-size: 92px 2460px;
+}
+
+#search:focus{
+	box-shadow: inset 0 0 0 1px #fff;
+}
+
+#topNav{
+	position: absolute;
+	top: 15px;
+	right: 30px;
+	/*width: 578px;*/
+}
+
+#topNav img{
+	display: block;
+	width: 32px;
+	height: 32px;
+	border-radius: 50%;
+	float: left;
+}
+
+#apps{
+	display: block;
+	background-position: -60px -1627px;
+	background-size: 92px 2460px;
+    opacity: .55;
+    height: 30px;
+    width: 30px;
+	background-image: url(../img/spriteicons.png);
+	float: left;
+	margin-top: 1px;
+}
+
+#bell{
+	background-position: -69px -104px;
+	background-size: 92px 2460px;
+	display: block;
+    opacity: .55;
+    height: 20px;
+    width: 20px;
+	background-image: url(../img/spriteicons.png);
+	border-radius: 50%;
+	background-color: rgba(0,0,0,1);
+	float: left;
+	margin-top: 6px;
+	margin-left: 15px;
+	margin-right: 15px;
+}
+
+#topNav p{
+	float: left;
+	opacity: .55;
+	line-height: 32px;
+	padding-right: 15px;
+}
+
+#apps:hover{
+	opacity: 1;
+}
+
+#bell:hover{
+	opacity: 1;
+}
+
+#topNav img:hover{
+	box-shadow: 0 1px rgba(0, 0, 0, 0.1);
+}
+
+#mainNav{
+	background-color: #F5F5F5;
+	height: 44px;
+	border-bottom: 1px solid transparent;
+	width: 100%;
+	transition: 0.2s;
+	z-index: 8;
+}
+
+#dropdown{
+	width: 81.219px;
+	height: 20px;
+	margin: 7px 0 7px 30px;
+    padding: 5px 5px 5px 8px;
+	box-shadow: 0 1px 2px 0 rgba(0,0,0,.2);
+	border-radius: 3px;
+	background-color: #fff;
+	display: inline-block;
+	-webkit-transition: margin-left .15s linear;
+	transition: margin-left .15s linear;
+}
+
+#logo{
+	background-image: url('../img/gplus_icon_flatsq_44dp.png');
+    height: 45px;
+    width: 45px;
+    background-size: 45px 45px;
+    background-position: 0 0;
+	-webkit-transition: margin-left .15s linear;
+	transition: margin-left .15s linear;
+	margin-left: -45px;
+	float: left;
+}
+
+#iconProfile{
+	display: inline-block;
+	background-image: url(../img/googleicons.png);
+	background-position: -20px -20px;
+	height: 20px;
+	width: 20px;
+	background-size: 168px 64px;
+	margin-right: 7px;
+}
+
+#dropdown p{
+	display: inline-block;
+	position: relative;
+	top: -5px;
+	left: -5px;
+	font-size: 14px;
+	color: #737373;
+}
+
+#arrow{
+	display: inline-block;
+	background-image: url(../img/googleicons.png);
+	background-position: -40px 0;
+	height: 16px;
+	width: 16px;
+	margin-bottom: 2px;
+	background-size: 168px 64px;
+	position: absolute;
+	margin-top: 2px;
+	opacity: 0.55;
+}
+
+#scrollTop{
+	height: 44px;
+	position: relative;
+	top: -5px;
+	color: #737373;
+	left: 7px;
+	transition: top .15s;
+	z-index: 1;
+	display: inline-block;
+	-webkit-transition: top .15s linear;
+	transition: top .15s linear;
+	top: 40px;
+	opacity: 0;
+}
+
+#scrollTop p{
+	display: inline-block;
+    padding: 0 8px;
+	font-size: 16px;
+	line-height: 44px;
+}
+
+#separation{
+	width: 1px;
+	background-color: #e5e5e5;
+	display: inline-block;
+	height: 20px;
+	position: relative;
+    top: 5px;
+}
+
+#scrollHangouts{
+	position: relative;
+	top: 2px;
+	display: inline-block;
+	background-image: url(../img/greyicons.png);
+	background-position: -126px -17px;
+    height: 16px;
+    width: 16px;
+	margin-left: 15px;
+}
+
+#sidebar{
+	width: 214px;
+	height: 501px;
+	position: absolute;
+	display: none;
+	/*transition: all 1s ease-in-out;*/
+	box-shadow: 0 0 20px 0 rgba(0,0,0,.2);
+	border-top: 1px solid #e5e5e5;
+	overflow-y: auto;
+	z-index: 9;
+	background-color: white;
+	top: -5px;
+}
+
+hr{
+    border: 0;
+    height: 0;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+#sidebar li{
+	height: 44px;
+	width: 214px;
+	background-color: white;
+	font-size: 14px;
+	color: #737373;
+	line-height: 44px;
+}
+
+#sidebar li a{
+	text-decoration: none;
+	color: #737373;
+}
+
+#sidebar li{
+	display: block;
+}
+
+#sidebar li:hover{
+	background-color: #F5F5F5;
+}
+
+#sidebar div:hover p{
+	color: black;
+}
+
+#focusBar{
+	position: relative;
+	height: 44px;
+	width: 125px;
+	top: -44px;
+}
+
+#focusBar:hover #sidebar{
+	display: block;
+}
+
+#Accueil{
+	background-image: url(../img/googleicons.png);
+	background-position: 0 0;
+	height: 20px;
+	width: 20px;
+	background-size: 168px 64px;
+	display: inline-block;
+	margin-left: 38px;
+	position: relative;
+	top: 5px;
+	margin-right: 7px;
+}
+
+#sidebar p{
+	display: inline-block;
+	font-style: normal;
+}
+
+#Profil{
+	background-image: url(../img/googleicons.png);
+	background-position: -20px -20px;
+	height: 20px;
+	width: 20px;
+	background-size: 168px 64px;
+	display: inline-block;
+	margin-left: 38px;
+	position: relative;
+	top: 5px;
+	margin-right: 7px;
+}
+
+#Contacts{
+	background-image: url(../img/googleicons.png);
+	background-position: -60px 0;
+	height: 20px;
+	width: 20px;
+	background-size: 168px 64px;
+	display: inline-block;
+	margin-left: 38px;
+	position: relative;
+	top: 5px;
+	margin-right: 7px;
+}
+
+#Photos{
+	background-image: url(../img/photos.svg);
+	background-position: 0 0;
+	height: 24px;
+	width: 24px;
+	background-size: 24px 24px;
+	display: inline-block;
+	margin-left: 38px;
+	position: relative;
+	top: 6px;
+	margin-right: 7px;
+}
+
+#Collections{
+	background-image: url(../img/collections.png);
+	background-position: 0 0;
+	height: 24px;
+	width: 24px;
+	background-size: 24px 24px;
+	display: inline-block;
+	margin-left: 36px;
+	position: relative;
+	top: 6px;
+	margin-right: 5px;
+}
+
+#Populaire{
+	background-image: url(../img/googleicons.png);
+	background-position: -104px 0;
+	height: 20px;
+	width: 20px;
+	background-size: 168px 64px;
+	display: inline-block;
+	margin-left: 38px;
+	position: relative;
+	top: 5px;
+	margin-right: 7px;
+}
+
+#Communautes{
+	background-image: url(../img/googleicons.png);
+	background-position: -148px -20px;
+	height: 20px;
+	width: 20px;
+	background-size: 168px 64px;
+	display: inline-block;
+	margin-left: 38px;
+	position: relative;
+	top: 5px;
+	margin-right: 7px;
+}
+
+#Evenements{
+	background-image: url(../img/googleicons.png);
+	background-position: -148px -40px;
+	height: 20px;
+	width: 20px;
+	background-size: 168px 64px;
+	display: inline-block;
+	margin-left: 38px;
+	position: relative;
+	top: 5px;
+	margin-right: 7px;
+}
+
+#Hangouts{
+	background-image: url(../img/googleicons.png);
+	background-position: -104px -40px;
+	height: 20px;
+	width: 20px;
+	background-size: 168px 64px;
+	display: inline-block;
+	margin-left: 38px;
+	position: relative;
+	top: 5px;
+	margin-right: 7px;
+}
+
+#Pages{
+	background-image: url(../img/googleicons.png);
+	background-position: -80px 0;
+	height: 20px;
+	width: 20px;
+	background-size: 168px 64px;
+	display: inline-block;
+	margin-left: 38px;
+	position: relative;
+	top: 5px;
+	margin-right: 7px;
+}
+
+#Parametres{
+	background-image: url(../img/googleicons.png);
+	background-position: -20px -40px;
+	height: 20px;
+	width: 20px;
+	background-size: 168px 64px;
+	display: inline-block;
+	margin-left: 38px;
+	position: relative;
+	top: 5px;
+	margin-right: 7px;
+}
+
+#talk{
+	position: absolute;
+	right: 30px;
+	top: 60px;
+	height: 44px;
+}
+
+#bell2{
+	background-position: -69px -104px;
+	background-size: 92px 2460px;
+	display: block;
+    height: 20px;
+    width: 20px;
+	background-image: url(../img/spriteicons.png);
+	border-radius: 50%;
+	opacity: .35;
+	background-color: rgba(0,0,0,1);
+	float: left;
+	margin-top: 12px;
+	display: none;
+}
+
+#bell2:hover{
+	opacity: .55;
+}
+
+#people{
+	background-image: url(../img/talkingicons.png);
+	background-position: 0 -40px;
+	width: 20px;
+	height: 20px;
+	background-size: 229px 105px;
+	opacity: .35;
+	float: left;
+	margin-left: 25px;
+	margin-top: 12px;
+}
+
+#people:hover{
+	opacity: .55;
+}
+
+#chat{
+	background-image: url(../img/talkingicons.png);
+	background-position: 0 -20px;
+	width: 20px;
+	height: 20px;
+	background-size: 229px 105px;
+	opacity: .35;
+	float: left;
+	margin-left: 25px;
+	margin-top: 12px;
+}
+
+#chat:hover{
+	opacity: .55;
+}
+
+#bgI{
+	width: 620px;
+	height: 349px;
+	display: block;
+}
+
+#banner{
+	width: 900px;
+	margin: 0 auto;
+}
+
+#leftSide{
+	width: 280px;
+	height: 349px;
+	float: left;
+	display: inline-block;
+	background-image: url(../img/blurry-Background.png);
+	background-size: 619px 349px;
+	background-position: -167px 0;
+	text-align: center;
+	color: white;
+}
+
+#pp{
+	margin: 0 auto;
+	display: block;
+	margin-top: 50px;
+	margin-bottom: 15px;
+}
+
+#name{
+	font-size: 20px;
+	margin-bottom: 15px;
+}
+
+.infoTop{
+	font-size: 12px;
+}
+
+#residency{
+	margin-bottom: 15px;
+}
+
+.number{
+	font-weight: bold;
+}
+
+#statistics{
+	font-size: 13px;
+}
+
+#line{
+	margin: 0 5px 0 5px;
+}
+
+#secondaryNav{
+	width: 900px;
+	height: 44px;
+	background-color: white;
+	z-index: 7;
+	margin: 0 auto;
+	clear: both;
+}
+
+#secondaryNav ul{
+	height: 100%;
+	margin: 0 auto;
+	text-align: center;
+}
+
+#secondaryNav li{
+	display: inline-block;
+	font-size: 14px;
+    line-height: 1.4;
+    margin: 13px 18px 0 18px;
+	padding-bottom: 10px;
+	border-bottom: 2px solid transparent;
+	color: #737373;
+	text-align: center;
+}
+
+#secondaryNav a:hover li{
+	transition: border-color .218s;
+    border-color: #427fed;
+    color: #262626;
+    text-decoration: none;
+}
+
+/*#secondaryNav a:active li{
+	transition: border-color .218s;
+    border-color: #427fed;
+    color: #262626;
+    text-decoration: none;
+    font-weight: bold;
+}*/
+
+#bio{
+	width: 22.563px;
+}
+
+#posts{
+	width: 38.125px;
+}
+
+#coll{
+	width: 75.469px;
+}
+
+#pictures{
+	width: 47.453px;
+}
+
+#vids{
+	width: 45.903px;
+}
+
+#one{
+	width: 20px;
+}
+
+#avis{
+	width: 29.573px;
+}
+
+#content{
+	width: 900px;
+	height: auto;
+	margin: 0 auto;
+	/*padding: 30px 262.500px 1px;*/
+	position: relative;
+	margin-top: 30px;
+	-moz-column-count: 2;
+    -moz-column-gap: 0px;
+    -webkit-column-count: 2;
+    -webkit-column-gap: 0px;
+    column-count: 2;
+    column-gap: 0px;
+}
+
+article{
+	padding: 17px 20px 17px 20px;
+	background-color: white;
+	display: inline-block;
+	float: left;
+	width: 398px;
+	margin: 10px 0 20px 10px;
+	border: 1px solid #d8d8d8;
+    border-bottom-width: 2px;
+}
+
+article:after{
+	display: block;
+	content: "";
+	clear: both;
+}
+
+#history{
+	margin: 0 0 20px 0;
+	border-top: 5px solid #e46f61;
+	border-radius: 3px;
+}
+
+#scholarship{
+	margin: 10px 0 247px 0;
+	border-top: 5px solid #53A93F;
+	border-radius: 3px;
+}
+
+#formation{
+	border-top: 5px solid #4dbfd9;
+	border-radius: 3px;
+}
+
+#adresses{
+	border-top: 5px solid #bc5679;
+	border-radius: 3px;
+}
+
+article h2{
+	color: #262626;
+	font-size: 20px;
+	font-weight: 300;
+	padding-bottom: 15px;
+}
+
+article h3{
+	font-weight: bold;
+}
+
+article p{
+	margin-bottom: 23px;
+}
+
+article a{
+	text-decoration: none;
+}
